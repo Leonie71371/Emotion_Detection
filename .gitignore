@@ -83,6 +83,9 @@ target/
 /data/raw/*
 /data/processed/*
 
+#ds store
+.DS_Store
+
 # IPython
 profile_default/
 ipython_config.py
