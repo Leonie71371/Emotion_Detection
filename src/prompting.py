@@ -12,7 +12,7 @@ class Prompting:
     def __init__(self) -> None:
         pass
 
-    def labels_to_text(self, record: dict) -> str:
+    def labels_to_text(self, record) -> str:
         kept = [emotion for emotion in EMOTIONS if record[emotion] == 1]
 
         if not kept:
@@ -24,7 +24,7 @@ class Prompting:
 
     def format_example(self, record: dict) -> str:
         label_text = self.labels_to_text(record)
-        block = f"Text: {record['text']}\nEmotions: {label_text}"
+        block = f"Example:\nText: {record['text']}\nEmotions: {label_text}"
 
         return block
     
@@ -40,7 +40,7 @@ class Prompting:
         for example in examples:
             user_prompt += self.format_example(example) + "\n\n"
 
-        user_prompt += f"\nTest_Text: {test_text}. Emotions detected: "
+        user_prompt += f"\nTest_Text: {test_text}.\nEmotions detected:"
 
         message = [
                     {"role": "system", "content": system_message},

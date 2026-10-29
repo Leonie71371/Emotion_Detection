@@ -25,7 +25,12 @@ class Model:
         model_inputs = self.tokenizer([text], return_tensors="pt").to(self.model.device)
 
         generated_ids = self.model.generate(
-            **model_inputs, max_new_tokens=max_new_tokens, do_sample = False
+            **model_inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample = False,
+            temperature = None,
+            top_k = None,
+            top_p = None
         )
         generated_ids = [
             output_ids[len(input_ids) :]
