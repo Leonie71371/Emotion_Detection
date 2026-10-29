@@ -6,10 +6,13 @@ readme = "README.md"
 authors = [
     { name = "leonieallgaier", email = "allgaier.leonie@web.de" }
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.12"
 dependencies = [
     "datasets>=5.1.0",
-    "pandas>=3.1.0",
+    "numpy<2",
+    "pandas>=2.2,<3",
+    "torch==2.2.2",
+    "transformers>=5.21.0",
 ]
 
 [project.scripts]
