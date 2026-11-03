@@ -1,0 +1,33 @@
+from pathlib import Path
+
+import pandas as pd
+
+
+class Preprocessing:
+
+    LANGS = ["afr", "deu", "ron"]
+    SPLITS = ["train", "dev", "test"]
+
+    def __init__(self, data_path: str = "../data/raw/") -> None:
+        self.data_path = data_path
+        self.data = self.read_files()
+
+    def read_files(self):
+        data = {}
+        for lang in self.LANGS:
+            for split in self.SPLITS:
+                data[lang, split] = pd.read_csv(self.data_path + f"{lang}_{split}.csv")
+        return data
+
+    def remove_nan(self):
+        pass
+
+    def remove_id(self):
+        for key, df in self.data.items():
+            self.data[key] = df.drop(columns = ["id"])
+
+    def save_files(self, out_path="../data/processed/"):
+        out_dir = Path(out_path)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        for (lang, split), df in self.data.items():
+            df.to_csv(out_dir / f"p_{lang}_{split}.csv", index=False)
