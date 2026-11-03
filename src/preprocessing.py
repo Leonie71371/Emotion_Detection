@@ -5,17 +5,16 @@ import pandas as pd
 
 class Preprocessing:
 
-    LANGS = ["afr", "deu", "ron"]
-    SPLITS = ["train", "dev", "test"]
-
     def __init__(self, data_path: str = "../data/raw/") -> None:
+        self.langs = ["afr", "deu", "ron"]
+        self.splits = ["train", "dev", "test"]
         self.data_path = data_path
         self.data = self.read_files()
 
     def read_files(self):
         data = {}
-        for lang in self.LANGS:
-            for split in self.SPLITS:
+        for lang in self.langs:
+            for split in self.splits:
                 data[lang, split] = pd.read_csv(self.data_path + f"{lang}_{split}.csv")
         return data
 
