@@ -19,12 +19,20 @@ class Preprocessing:
                 data[lang, split] = pd.read_csv(self.data_path / f"{lang}_{split}.csv")
         return data
 
-    def remove_column(self):
+    def remove_column(self, columns: list[str]):
         for key, df in self.data.items():
-            self.data[key] = df.drop(columns = ["id", "surprise"], errors="ignore")
+            self.data[key] = df.drop(columns=columns, errors="ignore")
 
-    def save_files(self, out_path="../data/processed/"):
+    def save_files(self, out_path: Path = ROOT/ "data" / "processed"):
         out_dir = Path(out_path)
         out_dir.mkdir(parents=True, exist_ok=True)
         for (lang, split), df in self.data.items():
             df.to_csv(out_dir / f"p_{lang}_{split}.csv", index=False)
+
+
+if __name__ == "__main__":
+    prep = Preprocessing()
+    print(prep.data["afr", "train"].columns)
+    prep.remove_column(["id", "surprise"])
+    print(prep.data["afr", "train"].columns)
+    prep.save_files()
