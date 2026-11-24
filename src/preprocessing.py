@@ -3,27 +3,26 @@ from pathlib import Path
 import pandas as pd
 
 
+ROOT = Path(__file__).resolve().parent.parent
+
 class Preprocessing:
 
-    def __init__(self, data_path: str = "../data/raw/") -> None:
+    def __init__(self, data_path: Path = ROOT / "data" / "raw") -> None:
         self.langs = ["afr", "deu", "ron"]
         self.splits = ["train", "dev", "test"]
-        self.data_path = data_path
+        self.data_path = Path(data_path)
         self.data = self.read_files()
 
     def read_files(self):
         data = {}
         for lang in self.langs:
             for split in self.splits:
-                data[lang, split] = pd.read_csv(self.data_path + f"{lang}_{split}.csv")
+                data[lang, split] = pd.read_csv(self.data_path / f"{lang}_{split}.csv")
         return data
 
-    def remove_nan(self):
-        pass
-
-    def remove_id(self):
+    def remove_column(self):
         for key, df in self.data.items():
-            self.data[key] = df.drop(columns = ["id"])
+            self.data[key] = df.drop(columns = ["id", "surprise"], errors="ignore")
 
     def save_files(self, out_path="../data/processed/"):
         out_dir = Path(out_path)
