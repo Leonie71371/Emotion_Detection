@@ -9,8 +9,10 @@ authors = [
 requires-python = ">=3.11,<3.12"
 dependencies = [
     "datasets<4",
+    "matplotlib>=3.11.2",
     "numpy<2",
     "pandas>=2.2,<3",
+    "stack-data>=0.6.3",
     "torch==2.2.2",
     "transformers>=4.40,<4.50",
 ]
