@@ -19,6 +19,18 @@ class Preprocessing:
                 data[lang, split] = pd.read_csv(self.data_path / f"{lang}_{split}.csv")
         return data
 
+    def remove_n_multilabels(self):
+        for (lang, split), df in self.data.items():
+            if lang in self.langs:
+                n_emotions = df["emotions"].str.count("'") // 2
+                self.data[lang, split] = df[n_emotions <= 2]
+
+    def remove_surprise_rows(self):
+        for (lang, split), df in self.data.items():
+            if lang in self.langs:
+                only_surprise = (df["surprise"] == 1) & (df["emotions"].sum(axis=1) == 1)
+                self.data[lang, split] = df[~only_surprise]
+
     def remove_column(self, columns: list[str]):
         for key, df in self.data.items():
             self.data[key] = df.drop(columns=columns, errors="ignore")
